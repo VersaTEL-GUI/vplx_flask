@@ -11,6 +11,11 @@ class Config(object):
 
 app.config.from_object(Config)
 
+@app.route('/login')
+def login():
+    data='success'
+    return jsonify(data)
+
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
 def cmd_data(cmd):
     data=subprocess.getoutput(cmd)
