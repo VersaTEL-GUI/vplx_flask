@@ -11,9 +11,14 @@ class Config(object):
 
 app.config.from_object(Config)
 
+def is_master():
+    with open('is_master', 'r')as f:
+        result=f.read()
+    return result
+
 @app.route('/login')
 def login():
-    data='success'
+    data=is_master()
     return jsonify(data)
 
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
@@ -22,4 +27,5 @@ def cmd_data(cmd):
     return jsonify(data)
 
 
-app.run(host='0.0.0.0', port=12122)
+#app.run(host='0.0.0.0', port=12122)
+is_master()
