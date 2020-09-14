@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 import subprocess
 
 
@@ -16,15 +16,22 @@ def is_master():
         result=f.read()
     return result
 
+def corss_domain(datadict):
+    response = make_response(jsonify(datadict))
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+    return response
+
 @app.route('/login')
 def login():
     data=is_master()
-    return jsonify(data)
+    return corss_domain(data)
 
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
 def cmd_data(cmd):
     data=subprocess.getoutput(cmd)
-    return jsonify(data)
+    return corss_domain(data)
 
 
 app.run(host='0.0.0.0', port=12122)
