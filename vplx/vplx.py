@@ -2,6 +2,7 @@
 
 from flask import Flask, jsonify, make_response
 import subprocess
+import base64
 
 
 app = Flask(__name__)
@@ -48,8 +49,14 @@ def cmd_result(cmd):
     :param cmd: 用户输入命令
     :return: 执行结果
     '''
-    data=subprocess.getoutput(cmd)
-    return corss_domain(data)
+    cmd_str=base64.b64decode(cmd)
+    print('result:', cmd_str, cmd)
+    if subprocess.getstatusoutput(cmd_str):
+        data=subprocess.getoutput(cmd_str)
+        return corss_domain(data)
+    else:
+        str_err="错误命令无法执行"
+        return corss_domain(str_err)
 
 
 app.run(host='0.0.0.0', port=12122)
