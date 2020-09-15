@@ -54,23 +54,6 @@
     </div>
 </body>
 <script>
-    // 获取master ip
-    function get_master_ip() {
-        $.ajax({
-            type: "GET",
-            url: "/get_master_ip",
-            dataType: "json",
-            success: function (data) {
-                $("#master_ip").val(data);
-            },
-            error: function () {
-                alert('master ip获取失败')
-            }
-        });
-    }
-
-    // get_master_ip();
-
     const Base64 = {
             // 转码表
             table : [
@@ -238,20 +221,37 @@
             }
         };
 
+    // 获取master ip
+    function get_master_ip() {
+        $.ajax({
+            type: "GET",
+            url: "/get_master_ip",
+            dataType: "json",
+            success: function (data) {
+                $("#master_ip").val(data);
+            },
+            error: function () {
+                alert('master ip获取失败')
+            }
+        });
+    }
+
+    get_master_ip();
+
     // 获取用户输入的cmd，到master执行并页面显示结果
     function get_cmd_result(){
         get_master_ip();
         const cmd=document.getElementById("cmd_input").value;
         const ip=document.getElementById("master_ip").value;
-        var encode_cmd = Base64.encode(cmd);
-
+        const encode_cmd = Base64.encode(cmd);
+        alert(encode_cmd);
         $.ajax({
         type: "GET",
         url: "http://"+ip+":12122/data/"+encode_cmd+"/",
         success:function (cmddata) {
-            alert('okokok');
             const cmdresult=document.getElementById("cmd_result");
-            cmdresult.value=cmddata
+            const decode_cmddata=Base64.decode(cmddata);
+            cmdresult.value=decode_cmddata
             }
         });
     }
