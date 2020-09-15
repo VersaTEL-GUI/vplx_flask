@@ -69,7 +69,7 @@
         });
     }
 
-    get_master_ip();
+    // get_master_ip();
 
     const Base64 = {
             // 转码表
@@ -244,16 +244,16 @@
         const cmd=document.getElementById("cmd_input").value;
         const ip=document.getElementById("master_ip").value;
         var encode_cmd = Base64.encode(cmd);
-        alert(encode_cmd);
 
         $.ajax({
         type: "GET",
         url: "http://"+ip+":12122/data/"+encode_cmd+"/",
         success:function (cmddata) {
+            alert('okokok');
             const cmdresult=document.getElementById("cmd_result");
             cmdresult.value=cmddata
             }
-        })
+        });
     }
 
 </script>
