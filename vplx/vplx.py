@@ -23,7 +23,7 @@ def read_flag_file():
 def corss_domain(data):
     '''
     数据跨域
-    :param datadict: 页面返回的数据
+    :param data: 页面返回的数据
     :return: response
     '''
     response = make_response(jsonify(data))
@@ -34,11 +34,20 @@ def corss_domain(data):
 
 @app.route('/is_master')
 def is_master():
+    '''
+    数据路由，判断master ip
+    :return: 0/1?None
+    '''
     data=read_flag_file()
     return corss_domain(data)
 
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
 def cmd_result(cmd):
+    '''
+    数据路由，接收cmd返回执行结果
+    :param cmd: 用户输入命令
+    :return: 执行结果
+    '''
     data=subprocess.getoutput(cmd)
     return corss_domain(data)
 
