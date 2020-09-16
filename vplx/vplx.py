@@ -66,7 +66,7 @@ def cmd_result(cmd):
         return corss_domain(str_err)
 
 
-@app.route('/data', methods=['GET', 'POST'])
+@app.route('/cmd_result_data', methods=['GET', 'POST'])
 def cmd_result_data():
     '''
     数据路由
