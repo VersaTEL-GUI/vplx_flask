@@ -4,13 +4,15 @@ from flask import Flask, jsonify, make_response
 import subprocess
 import base64
 
-
 app = Flask(__name__)
+
 
 class Config(object):
     DEBUG = True
 
+
 app.config.from_object(Config)
+
 
 def read_flag_file():
     '''
@@ -18,8 +20,9 @@ def read_flag_file():
     :return: 0/1?None
     '''
     with open('is_master', 'r')as f:
-        result=f.read()
+        result = f.read()
     return result
+
 
 def corss_domain(data):
     '''
@@ -33,15 +36,17 @@ def corss_domain(data):
     response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
     return response
 
+
 @app.route('/is_master')
 def is_master():
     '''
     数据路由，判断master ip
     :return: 0/1?None
     '''
-    data=read_flag_file()
+    data = read_flag_file()
     return corss_domain(data)
 
+data = {}
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
 def cmd_result(cmd):
     '''
@@ -49,14 +54,25 @@ def cmd_result(cmd):
     :param cmd: 用户输入命令
     :return: 执行结果
     '''
-    cmd_str=base64.b64decode(cmd)
+    cmd_str = base64.b64decode(cmd)
     print('result:', cmd_str, cmd)
     if subprocess.getstatusoutput(cmd_str):
-        data=base64.b64encode(subprocess.getoutput(cmd_str))
-        return corss_domain(data)
+        data_value = base64.b64encode(subprocess.getoutput(cmd_str))
+        data["data"]=data_value
+        str_ok = "命令执行成功"
+        return corss_domain(str_ok)
     else:
-        str_err="错误命令无法执行"
+        str_err = "错误命令无法执行"
         return corss_domain(str_err)
+
+
+@app.route('/data', methods=['GET', 'POST'])
+def cmd_result_data():
+    '''
+    数据路由
+    :return: 执行结果
+    '''
+    return corss_domain(data)
 
 
 app.run(host='0.0.0.0', port=12122)

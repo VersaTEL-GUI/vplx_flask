@@ -4,17 +4,16 @@ from flask import Flask, render_template, request, jsonify
 
 import urllib3
 
-
-IP_LIS=['10.203.1.223', '10.203.1.224']
-
+IP_LIS = ['10.203.1.223', '10.203.1.224']
 
 app = Flask(__name__)
+
 
 class Config(object):
     DEBUG = True
 
-app.config.from_object(Config)
 
+app.config.from_object(Config)
 
 # @app.route('/login')
 # def login():
@@ -50,7 +49,6 @@ app.config.from_object(Config)
 #     return jsonify(data_dic)
 
 
-
 @app.route('/index')
 def index():
     '''
@@ -58,6 +56,7 @@ def index():
     :return: index.html
     '''
     return render_template('index.html')
+
 
 @app.route('/get_master_ip', methods=['GET', 'POST'])
 def get_master_ip():
@@ -74,5 +73,6 @@ def get_master_ip():
                 return jsonify(ip)
     return jsonify(IP_LIS[0])
 
-#if __name__ == '__name__' :
+
+# if __name__ == '__name__' :
 app.run()

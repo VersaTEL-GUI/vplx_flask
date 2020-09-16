@@ -48,6 +48,7 @@
             <br>
             <br>
             <p>执行结果</p>
+            <input type="submit" value="查看数据" onclick="see_cmd_result()">
             <textarea name="" id="cmd_result" cols="40" rows="10"></textarea>
         </div>
 
@@ -249,11 +250,28 @@
         type: "GET",
         url: "http://"+ip+":12122/data/"+encode_cmd+"/",
         success:function (cmddata) {
+        	alert(cmddata)
             const cmdresult=document.getElementById("cmd_result");
             const decode_cmddata=Base64.decode(cmddata);
             cmdresult.value=decode_cmddata
             }
         });
+    }
+    
+    
+    function see_cmd_result(){
+       $.ajax({
+            type: "GET",
+            url: "/data",
+            dataType: "json",
+            success: function (data) {
+                $("#cmd_result").val(data.data);
+            },
+            error: function () {
+                alert('数据获取失败！！！')
+            }
+        });
+    
     }
 
 </script>
