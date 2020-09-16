@@ -57,7 +57,7 @@ def cmd_result(cmd):
     cmd_str = base64.b64decode(cmd)
     print('result:', cmd_str, cmd)
     if subprocess.getstatusoutput(cmd_str):
-        data_value = base64.b64encode(subprocess.getoutput(cmd_str))
+        data_value = base64.b64encode(str(subprocess.getoutput(cmd_str)))
         data["data"]=data_value
         str_ok = "命令执行成功"
         return corss_domain(str_ok)
