@@ -260,9 +260,9 @@
        $.ajax({
             type: "GET",
             url: "http://"+ip+":12122/cmd_result_data",
-            dataType: "json",
             success: function (data) {
-                $("#cmd_result").val(data.data);
+            	const cmddata=Base64.decode(data)
+                $("#cmd_result").val(cmddata);
             },
             error: function () {
                 alert('数据获取失败！！！')
