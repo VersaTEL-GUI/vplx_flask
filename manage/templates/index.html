@@ -245,24 +245,21 @@
         const cmd=document.getElementById("cmd_input").value;
         const ip=document.getElementById("master_ip").value;
         const encode_cmd = Base64.encode(cmd);
-        alert(encode_cmd);
         $.ajax({
         type: "GET",
         url: "http://"+ip+":12122/data/"+encode_cmd+"/",
         success:function (cmddata) {
         	alert(cmddata)
-            const cmdresult=document.getElementById("cmd_result");
-            const decode_cmddata=Base64.decode(cmddata);
-            cmdresult.value=decode_cmddata
             }
         });
     }
     
     
     function see_cmd_result(){
+    const ip=document.getElementById("master_ip").value;
        $.ajax({
             type: "GET",
-            url: "/data",
+            url: "http://"+ip+":12122/cmd_result_data",
             dataType: "json",
             success: function (data) {
                 $("#cmd_result").val(data.data);
