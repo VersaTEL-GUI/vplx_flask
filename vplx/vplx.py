@@ -77,11 +77,8 @@ def cmd_result_data():
     数据路由
     :return: 执行结果`
     '''
-<<<<<<< HEAD
-    return corss_domain(data)
-=======
+
     return corss_domain(data[-1])
->>>>>>> a90faf529b43c027de300683cef7ed8c3af9d98d
 
 
 app.run(host='0.0.0.0', port=12122)
